@@ -3,7 +3,7 @@
 #include "./menu/menu.h"
 
 #ifndef ANALISE
-#define ANALISE
+#define ANALISE 0
 #endif 
 int main() {
 

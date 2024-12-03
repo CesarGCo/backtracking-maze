@@ -8,5 +8,6 @@
 
 void exibir_menu(int isAnalise);
 
+void menu(int isAnalise);
 
 #endif

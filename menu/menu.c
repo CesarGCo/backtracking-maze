@@ -10,12 +10,7 @@ void exibir_menu(int isAnalise) {
     int cont;
 
     do {
-        printf(RED "\nMENU:\n" WHITE);
-        printf("1) Carregar arquivo do labirinto\n");
-        printf("2) Executar backtracking\n");
-        printf("3) Mostrar matriz\n");
-        printf("4) Sair\n");
-        printf("Escolha uma opção: ");
+        menu(isAnalise);
         scanf("%d", &opcao);
 
         switch (opcao) {
@@ -58,3 +53,18 @@ void exibir_menu(int isAnalise) {
     } while (1);
 }
 
+void menu(int isAnalise) {
+    printf("|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|\n");
+    printf("|                 "BLUE"MENU"RESET"                  |\n");
+    printf("|         MODO ANALISE ");
+    if(isAnalise) printf(GREEN"ATIVADO          "RESET"|\n");
+    else printf(RED"DESATIVADO       "RESET"|\n");
+    printf("|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|\n");
+    printf("| Escolha uma das opcoes:               |\n");
+    printf("|   1 - Carregar arquivo do labirinto   |\n");
+    printf("|   2 - Executar backtracking           |\n");
+    printf("|   3 - Mostrar matriz                  |\n");
+    printf("|   4 - Sair                            |\n");
+    printf("|=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|\n");
+    printf("| >>> ");
+}
