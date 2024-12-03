@@ -8,8 +8,6 @@
 int main() {
 
     exibir_menu(ANALISE);
-    
-    //DadosLidos dado = le_arquivo("input.txt");
 
     return 0;
 }
