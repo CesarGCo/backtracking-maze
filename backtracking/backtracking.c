@@ -57,6 +57,7 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
     if (x == 0) {
         printf("Linha: %d Coluna: %d\n", x, y);
         printf("O estudante se movimentou %d vezes e chegou na coluna %d da primeira linha\n", passos, y);
+        labirinto[x][y] = -1;
         return 1;
     }
 

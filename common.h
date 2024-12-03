@@ -8,6 +8,7 @@
 #define YELLOW "\x1B[33m"
 #define BLUE "\x1B[34m"
 #define GREEN "\e[0;32m"
+#define RESET "\033[0m"
 
 //Incluindo Bibliotecas padrão:
 #include <stdlib.h>

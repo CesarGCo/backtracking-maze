@@ -5,13 +5,15 @@ void exibir_menu() {
     DadosLidos dado;
     int opcao;
     char caminho[100];
+    int **copia_labirinto;
+    int verifica_back = 0;
 
     do {
         printf(RED "\nMENU:\n" WHITE);
         printf("1) Carregar arquivo do labirinto\n");
         printf("2) Executar backtracking\n");
         printf("3) Mostrar matriz\n");
-        printf("3) Sair\n");
+        printf("4) Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
 
@@ -29,23 +31,22 @@ void exibir_menu() {
                     printf("Por favor, carregue um arquivo antes de executar.\n");
                     break;
                 }
-                //inicia_backtracking(dado);
-                movimenta_estudante(dado.matriz_labirinto, dado.tamanho_linha, dado.tamanho_coluna, 9, 4, dado.num_chaves, 0);
-                libera_matriz(&dado);
+
+                copia_labirinto = copia_matriz(dado.matriz_labirinto, dado.tamanho_linha, dado.tamanho_coluna);
+                movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, 9, 4, dado.num_chaves, 0);
+                verifica_back = 1;
                 break;
 
-
             case 3:
-                 for (int i = 0; i < 10; i++) {
-                    for (int j = 0; j < 10; j++) {
-                        printf("%d", dado.matriz_labirinto[i][j]);
-                    }
-                    printf("\n");
+                if(verifica_back != 1){
+                    printf("Backtracking ainda não foi feito!");
+                } else {
+                    exibe_labirinto(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna);
                 }
                 break;
             case 4:
                 printf("Saindo...\n");
-               // libera_matriz(&dado);
+                exit(0);
                 return;
 
             default:
@@ -54,3 +55,4 @@ void exibir_menu() {
         }
     } while (1);
 }
+
