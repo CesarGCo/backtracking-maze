@@ -38,3 +38,14 @@ void libera_matriz(DadosLidos *dado) {
     free(dado->matriz_labirinto);
     dado->matriz_labirinto = NULL;
 }
+
+int **copia_matriz(int **original, int linhas, int colunas) {
+    int **copia = malloc(linhas * sizeof(int *));
+    for (int i = 0; i < linhas; i++) {
+        copia[i] = malloc(colunas * sizeof(int));
+        for (int j = 0; j < colunas; j++) {
+            copia[i][j] = original[i][j];
+        }
+    }
+    return copia;
+}

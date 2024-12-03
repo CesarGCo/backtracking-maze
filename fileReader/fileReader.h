@@ -14,5 +14,6 @@ typedef struct {
 DadosLidos le_arquivo(char *caminho);
 
 void libera_matriz(DadosLidos *dado);
+int **copia_matriz(int **original, int linhas, int colunas);
 
 #endif
