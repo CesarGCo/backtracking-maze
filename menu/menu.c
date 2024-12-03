@@ -29,7 +29,9 @@ void exibir_menu() {
                     printf("Por favor, carregue um arquivo antes de executar.\n");
                     break;
                 }
-                inicia_backtracking(dado);
+                //inicia_backtracking(dado);
+                movimenta_estudante(dado.matriz_labirinto, dado.tamanho_linha, dado.tamanho_coluna, 9, 4, dado.num_chaves, 0);
+                libera_matriz(&dado);
                 break;
 
 

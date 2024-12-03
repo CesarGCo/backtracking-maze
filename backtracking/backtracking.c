@@ -53,157 +53,32 @@
 // }
 
 
-labirinto cria_labirinto(FILE *arquivo) {
-    labirinto lab;
-    aluno aluno;
-    aluno.movimentos = 0;
-
-
-    fscanf(arquivo, "%d %d %d", &lab.largura, &lab.altura, &aluno.chaves); 
-
-    lab.aluno = aluno; 
-
-    lab.matriz = malloc(lab.altura * sizeof(celula *));
-    for (int i = 0; i < lab.altura; i++) {
-        lab.matriz[i] = malloc(lab.largura * sizeof(celula));
-        for (int j = 0; j < lab.largura; j++) {
-            char ch;
-            do {
-                ch = fgetc(arquivo);
-            } while (ch == '\n' || ch == ' ');
-
-            if (ch == '0') {
-                lab.matriz[i][j].tipo = ch;
-                lab.matriz[i][j].visitada = true;
-                lab.inicio_largura = j;
-                lab.inicio_altura = i;
-            } else {
-                lab.matriz[i][j].tipo = ch;
-                lab.matriz[i][j].visitada = false;
-            }
-        }
-    }
-
-    return lab;
-}
-
-
-void exibe_labirinto(labirinto lab) {
-    for (int i = 0; i < lab.altura; i++) {
-        for (int j = 0; j < lab.largura; j++) {
-            switch (lab.matriz[i][j].tipo) {
-                case '0': // Verde: Estudante inicialmente
-                    printf("\033[0;32m[0]\033[0m");
-                    break;
-                case '1': // Branco: Célula vazia
-                    printf("\033[0;37m[1]\033[0m");
-                    break;
-                case '2': // Azul: Parede
-                    printf("\033[0;34m[2]\033[0m");
-                    break;
-                case '3': // Vermelho
-                    printf("\033[0;31m[3]\033[0m");
-                    break;
-                case '5': // Amarelo: Célula com chave
-                    printf("\033[0;33m[5]\033[0m");
-                    break;
-                default: // Caso não mapeado, exibir normalmente
-                    printf("[ ]");
-                    break;
-            }
-        }
-        printf("\n");
-    }
-}
-
-
-int direcoes[4][2] = {
-    {-1, 0},  // cima
-    {0, -1},  // esquerda
-    {0, 1},   // direita
-    {1, 0}    // baixo
-};
-
-// Função para verificar se uma célula é válida para o movimento (não altera estado)
-bool valida_movimento(int x, int y, labirinto *lab) {
-    if (x >= 0 && x < lab->altura && y >= 0 && y < lab->largura) {
-        if (lab->matriz[x][y].tipo == '2' || lab->matriz[x][y].visitada) {
-            return false; // Parede ou célula já visitada
-        }
-        if (lab->matriz[x][y].tipo == '3' && lab->aluno.chaves <= 0) {
-            return false; // Não pode passar por célula vermelha sem chaves
-        }
-        return true; // Movimento válido
-    }
-    return false; // Fora dos limites
-}
-
-// Função para verificar se não há mais movimentos possíveis
-bool sem_movimentos(int x, int y, labirinto *lab) {
-    for (int i = 0; i < 4; i++) {
-        int novo_x = x + direcoes[i][0];
-        int novo_y = y + direcoes[i][1];
-        // Verifica se há pelo menos um movimento válido
-        if (valida_movimento(novo_x, novo_y, lab)) {
-            return false;
-        }
-    }
-    return true; // Nenhum movimento possível
-}
-
-// Função de backtracking para andar pelo labirinto
-bool backtrack(int x, int y, labirinto *lab) {
-    // Se a célula está na linha 0, o estudante escapou
+int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int passos) {
     if (x == 0) {
-        printf("Escapou do labirinto na linha 0, posição coluna %d, linha %d com %d movimentos\n", x, y, lab->aluno.movimentos);
-        lab->matriz[x][y].tipo = '0'; 
-        return true;
+        printf("Linha: %d Coluna: %d\n", x, y);
+        printf("O estudante se movimentou %d vezes e chegou na coluna %d da primeira linha\n", passos, y);
+        return 1;
     }
 
-    // Marca a célula atual como visitada
-    lab->matriz[x][y].visitada = true;
-    lab->aluno.movimentos++;
+    int valor_atual = labirinto[x][y];
+    labirinto[x][y] = -1;
+    printf("Linha: %d Coluna: %d\n", x, y);
 
-    // Se a célula é do tipo '5', o aluno pega uma chave
-    if (lab->matriz[x][y].tipo == '5') {
-        lab->aluno.chaves++;
-        printf("Encontrou uma chave! Chaves disponíveis: %d\n", lab->aluno.chaves);
-    }
-
-    lab->matriz[x][y].tipo = '0'; // Marca como visitada no labirinto visual
-    printf("Movido para coluna %d, linha %d, com %d movimentos\n", y, x, lab->aluno.movimentos);
-
-    // Verifica se está cercado e não há movimentos possíveis
-    if (sem_movimentos(x, y, lab)) {
-        printf("Sem movimentos possíveis a partir da coluna %d, linha%d. Labirinto sem solução.\n", y, x);
-        return false;
-    }
-
-    // Explora as 4 direções possíveis (cima, esquerda, direita, baixo)
+    int direcoes[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
     for (int i = 0; i < 4; i++) {
-        int novo_x = x + direcoes[i][0];
-        int novo_y = y + direcoes[i][1];
+        int nx = x + direcoes[i][0];
+        int ny = y + direcoes[i][1];
 
-        if (valida_movimento(novo_x, novo_y, lab)) {
-            // Se for uma célula vermelha, consome uma chave antes de mover
-            if (lab->matriz[novo_x][novo_y].tipo == '3') {
-                lab->aluno.chaves--;
-                printf("Gastou uma chave! Chaves restantes: %d\n", lab->aluno.chaves);
-            }
-
-            if (backtrack(novo_x, novo_y, lab)) {
-                return true; // Caminho para a solução encontrado
-            }
-
-            // Se não deu certo, devolve a chave gasta ao voltar
-            if (lab->matriz[novo_x][novo_y].tipo == '3') {
-                lab->aluno.chaves++;
-                printf("Recuperou uma chave! Chaves disponíveis: %d\n", lab->aluno.chaves);
+        if (nx >= 0 && nx < linhas && ny >= 0 && ny < colunas) {
+            if (labirinto[nx][ny] == 1 || (labirinto[nx][ny] == 3 && chaves > 0)) {
+                int nova_chave = chaves - (labirinto[nx][ny] == 3 ? 1 : 0);
+                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, nova_chave, passos + 1)) {
+                    return 1;
+                }
             }
         }
     }
 
-    // Retrocede (backtrack) se nenhuma solução for encontrada
-    lab->matriz[x][y].visitada = false;
-    return false;
+    labirinto[x][y] = valor_atual;
+    return 0;
 }
