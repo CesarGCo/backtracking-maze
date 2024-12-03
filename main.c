@@ -2,7 +2,9 @@
 #include "./fileReader/fileReader.h"
 #include "./menu/menu.h"
 
-#define ANALISE 1
+#ifndef ANALISE
+#define ANALISE
+#endif 
 int main() {
 
     exibir_menu(ANALISE);
