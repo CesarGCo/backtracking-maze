@@ -44,14 +44,11 @@ void exibir_menu(int isAnalise) {
                     exibe_labirinto(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna);
                 }
                 break;
-            case 4:
+            default:
                 printf("Saindo...\n");
                 exit(0);
                 return;
 
-            default:
-                printf("Opção inválida.\n");
-                break;
         }
     } while (1);
 }
