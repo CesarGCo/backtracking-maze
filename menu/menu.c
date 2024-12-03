@@ -33,7 +33,8 @@ void exibir_menu() {
                 }
 
                 copia_labirinto = copia_matriz(dado.matriz_labirinto, dado.tamanho_linha, dado.tamanho_coluna);
-                movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, 9, 4, dado.num_chaves, 0);
+                int cont = 0;
+                movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, 9, 4, dado.num_chaves, 0, &cont);
                 verifica_back = 1;
                 break;
 

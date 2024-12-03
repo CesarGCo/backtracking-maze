@@ -53,8 +53,12 @@
 // }
 
 
-int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int passos) {
-    if (x == 0) {
+int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int passos, int *cont) {
+    if (x == 0 || *cont == 10) {
+        if (*cont == 10) {
+            printf("O labirinto não tem saída.\n");
+            return 1;
+        }
         printf("Linha: %d Coluna: %d\n", x, y);
         printf("O estudante se movimentou %d vezes e chegou na coluna %d da primeira linha\n", passos, y);
         labirinto[x][y] = -1;
@@ -65,6 +69,25 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
     labirinto[x][y] = -1;
     printf("Linha: %d Coluna: %d\n", x, y);
 
+    if (labirinto[x - 1][y] == 2) {
+        (*cont)++;
+        if (y > 0 && labirinto[x][y - 1] != 2 && labirinto[x][y - 1] != -1) {
+            if (movimenta_estudante(labirinto, linhas, colunas, x, y - 1, chaves, passos + 1, cont)) {
+                return 1;
+            }
+        }
+
+        if (y < colunas - 1 && labirinto[x][y + 1] != 2 && labirinto[x][y + 1] != -1) {
+            if (movimenta_estudante(labirinto, linhas, colunas, x, y + 1, chaves, passos + 1, cont)) {
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
+    *cont = 0;
+
     int direcoes[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
     for (int i = 0; i < 4; i++) {
         int nx = x + direcoes[i][0];
@@ -73,7 +96,7 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
         if (nx >= 0 && nx < linhas && ny >= 0 && ny < colunas) {
             if (labirinto[nx][ny] == 1 || (labirinto[nx][ny] == 3 && chaves > 0)) {
                 int nova_chave = chaves - (labirinto[nx][ny] == 3 ? 1 : 0);
-                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, nova_chave, passos + 1)) {
+                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, nova_chave, passos + 1, cont)) {
                     return 1;
                 }
             }
@@ -83,3 +106,6 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
     labirinto[x][y] = valor_atual;
     return 0;
 }
+
+
+
