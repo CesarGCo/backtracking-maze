@@ -1,7 +1,7 @@
 #include "fileReader.h"
 
 DadosLidos le_arquivo(char *caminho){
-    DadosLidos dado;
+    DadosLidos dado = {0, NULL, 0, 0, false};
     FILE *arquivo = fopen(caminho, "r");
 
     if(arquivo == NULL){
@@ -27,6 +27,7 @@ DadosLidos le_arquivo(char *caminho){
     }
 
     fclose(arquivo);
+    dado.esta_carregado = true;
     return dado;
 }
 

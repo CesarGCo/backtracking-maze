@@ -23,11 +23,13 @@ void exibir_menu() {
                 scanf("%s", caminho);
 
                 dado = le_arquivo(caminho);
-                printf("Labirinto carregado com sucesso!\n");
+                if(dado.esta_carregado == true){
+                    printf("Labirinto carregado com sucesso!\n");
+                }
                 break;
             
             case 2:
-                if (dado.matriz_labirinto == NULL) {
+                if (dado.esta_carregado == false) {
                     printf("Por favor, carregue um arquivo antes de executar.\n");
                     break;
                 }
