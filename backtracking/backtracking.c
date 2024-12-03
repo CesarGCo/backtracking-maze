@@ -51,12 +51,26 @@
 
 //     dados.matriz_labirinto[i][j] = 1;
 // }
+void inicia_backtracking(DadosLidos dado, int isAnalise, int **copia_labirinto) {
+    int contagemRecursividade;
+    int i; int j;
+    for(i = 0; i < dado.tamanho_linha; i++) {
+        for(j = 0; j < dado.tamanho_coluna; j++) {
+            if(dado.matriz_labirinto[i][j] == 0) {
+                if(isAnalise) contagemRecursividade = 1;
+                movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, i, j, dado.num_chaves, contagemRecursividade);
+                return;
+            }
+        }
+    }
+    printf("| "RED"A posicao inicial do estudante não foi encontrda!\n"RESET);
+    return;
+}
 
-
-int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int passos) {
+int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int contagemRecursividade) {
     if (x == 0) {
         printf("Linha: %d Coluna: %d\n", x, y);
-        printf("O estudante se movimentou %d vezes e chegou na coluna %d da primeira linha\n", passos, y);
+        printf("O estudante chegou na coluna %d da primeira linha\n", y);
         labirinto[x][y] = -1;
         return 1;
     }
@@ -73,9 +87,9 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
         if (nx >= 0 && nx < linhas && ny >= 0 && ny < colunas) {
             if (labirinto[nx][ny] == 1 || (labirinto[nx][ny] == 3 && chaves > 0)) {
                 int nova_chave = chaves - (labirinto[nx][ny] == 3 ? 1 : 0);
-                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, nova_chave, passos + 1)) {
-                    return 1;
-                }
+                
+                if(contagemRecursividade > 0) contagemRecursividade++;
+                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, nova_chave, contagemRecursividade)) return 1;
             }
         }
     }
