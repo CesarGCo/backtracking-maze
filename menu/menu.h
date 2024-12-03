@@ -6,7 +6,7 @@
 #define MENU
 
 
-void exibir_menu();
+void exibir_menu(int isAnalise);
 
 
 #endif
