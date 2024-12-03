@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "../common.h"
 
 typedef struct {
     int num_chaves;
@@ -15,5 +16,6 @@ DadosLidos le_arquivo(char *caminho);
 
 void libera_matriz(DadosLidos *dado);
 int **copia_matriz(int **original, int linhas, int colunas);
+void exibe_labirinto(int **labirinto, int linhas, int colunas);
 
 #endif

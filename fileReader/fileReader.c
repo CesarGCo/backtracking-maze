@@ -49,3 +49,25 @@ int **copia_matriz(int **original, int linhas, int colunas) {
     }
     return copia;
 }
+
+#include <stdio.h>
+
+
+void exibe_labirinto(int **labirinto, int linhas, int colunas) {
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            if (labirinto[i][j] == 0) {
+                printf(RED "[0]" RESET);
+            } else if (labirinto[i][j] == 1) {
+                printf(WHITE "[1]" RESET);
+            } else if (labirinto[i][j] == 3) {
+                printf(RED "[3]" RESET);
+            } else if (labirinto[i][j] == -1) {
+                printf(GREEN "[-]" RESET);
+            } else {
+                printf(BLUE "[%d]" RESET, labirinto[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
