@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include "menu.h"
 
-void exibir_menu() {
+void exibir_menu(int isAnalise) {
     DadosLidos dado;
     int opcao;
     char caminho[100];
-    int **copia_labirinto;
     int verifica_back = 0;
+    int ** copia_labirinto;
+    int cont;
 
     do {
         printf(RED "\nMENU:\n" WHITE);
@@ -33,9 +34,8 @@ void exibir_menu() {
                     printf("Por favor, carregue um arquivo antes de executar.\n");
                     break;
                 }
-
                 copia_labirinto = copia_matriz(dado.matriz_labirinto, dado.tamanho_linha, dado.tamanho_coluna);
-                movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, 9, 4, dado.num_chaves, 0);
+                inicia_backtracking(dado, isAnalise, copia_labirinto, &cont);
                 verifica_back = 1;
                 break;
 
