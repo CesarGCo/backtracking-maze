@@ -51,14 +51,14 @@
 
 //     dados.matriz_labirinto[i][j] = 1;
 // }
-void inicia_backtracking(DadosLidos dado, int isAnalise, int **copia_labirinto) {
+void inicia_backtracking(DadosLidos dado, int isAnalise, int **copia_labirinto, int *cont) {
     int contagemRecursividade;
     int i; int j;
     for(i = 0; i < dado.tamanho_linha; i++) {
         for(j = 0; j < dado.tamanho_coluna; j++) {
             if(dado.matriz_labirinto[i][j] == 0) {
                 if(isAnalise) contagemRecursividade = 1;
-                movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, i, j, dado.num_chaves, contagemRecursividade);
+                movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, i, j, dado.num_chaves, contagemRecursividade, cont);
                 return;
             }
         }
@@ -110,7 +110,7 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
                 int nova_chave = chaves - (labirinto[nx][ny] == 3 ? 1 : 0);
                 
                 if(contagemRecursividade > 0) contagemRecursividade++;
-                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, nova_chave, contagemRecursividade)) return 1;
+                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, nova_chave, contagemRecursividade, cont)) return 1;
             }
         }
     }

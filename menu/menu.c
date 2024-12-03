@@ -7,6 +7,7 @@ void exibir_menu(int isAnalise) {
     char caminho[100];
     int verifica_back = 0;
     int ** copia_labirinto;
+    int cont;
 
     do {
         printf(RED "\nMENU:\n" WHITE);
@@ -32,7 +33,7 @@ void exibir_menu(int isAnalise) {
                     break;
                 }
                 copia_labirinto = copia_matriz(dado.matriz_labirinto, dado.tamanho_linha, dado.tamanho_coluna);
-                inicia_backtracking(dado, isAnalise, copia_labirinto);
+                inicia_backtracking(dado, isAnalise, copia_labirinto, &cont);
                 verifica_back = 1;
                 break;
 
