@@ -1,10 +1,7 @@
+#include "../common.h"
+
 #ifndef FILE_READER
 #define FILE_READER
-
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include "../common.h"
 
 typedef struct {
     int num_chaves;

@@ -7,29 +7,31 @@ void inicia_backtracking(DadosLidos dado, int isAnalise, int **copia_labirinto, 
         for(j = 0; j < dado.tamanho_coluna; j++) {
             if(dado.matriz_labirinto[i][j] == 0) {
                 if(isAnalise) contagemRecursividade = 1;
+                 printf("| "GREEN"INICIO"RESET":\n");
                 movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, i, j, dado.num_chaves, &contagemRecursividade, encontrou_saida);
                 if(isAnalise) {
-                    printf("| O numero de chamadas recursivas e %i\n", contagemRecursividade);
+                    printf("|\n| "BLUE"ANALISE"RESET": \n| >>> Numero de chamadas recursivas realizadas: %i\n", contagemRecursividade);
                 }
                 return;
             }
         }
     }
-    printf("| "RED"A posicao inicial do estudante nao foi encontrda!\n"RESET);
+    (*encontrou_saida) = 1;
+    printf("| A posicao inicial do estudante "RED"NAO"RESET" foi encontrda!\n");
     return;
 }
 
 int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int* contagemRecursividade, int* encontrou_saida) {
     if (x == 0) {
-        printf("Linha: %d Coluna: %d\n", x, y);
-        printf("O estudante chegou na coluna %d da primeira linha\n", y);
+        printf("| Linha: %d Coluna: %d\n", x, y);
+        printf("| "GREEN"FIM"RESET": O estudante chegou na coluna %d da primeira linha\n", y);
         labirinto[x][y] = -1;
         *encontrou_saida = 1;
         return 1;
     }
 
     labirinto[x][y] = -1;
-    printf("Linha: %d Coluna: %d\n", x, y);
+    printf("| Linha: %d Coluna: %d\n", x, y);
 
     int direcoes[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
 

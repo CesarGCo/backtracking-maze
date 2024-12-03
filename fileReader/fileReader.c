@@ -5,7 +5,7 @@ DadosLidos le_arquivo(char *caminho){
     FILE *arquivo = fopen(caminho, "r");
 
     if(arquivo == NULL){
-        printf("Failed to open file\n");
+        printf("Nao foi possivel abrir o arquivo "RED"%s"RESET"\n",caminho);
         dado.num_chaves = 0;
         dado.matriz_labirinto = NULL;
         return dado;

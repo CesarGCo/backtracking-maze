@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "menu.h"
 
 void exibir_menu(int isAnalise) {
@@ -14,45 +13,53 @@ void exibir_menu(int isAnalise) {
 
         switch (opcao) {
             case 1: 
-                printf("Digite o caminho do arquivo: ");
+                printf("| Digite o caminho do arquivo: ");
                 scanf("%s", caminho);
 
                 dado = le_arquivo(caminho);
                 if(dado.esta_carregado == true){
-                    printf("Labirinto carregado com sucesso!\n");
+                    printf("| Labirinto carregado com "GREEN"SUCESSO"RESET".\n");
                 }
                 break;
             
             case 2:
                 if (dado.esta_carregado == false) {
-                    printf("Por favor, carregue um arquivo antes de executar.\n");
+                    printf("| Por favor, carregue um arquivo antes de executar!\n");
                     break;
                 }
                 copia_labirinto = copia_matriz(dado.matriz_labirinto, dado.tamanho_linha, dado.tamanho_coluna);
                 int encontrou_saida = 0;
                 inicia_backtracking(dado, isAnalise, copia_labirinto, &encontrou_saida);
                 if(!encontrou_saida){
-                    printf("O labirinto nao possui saida!!\n");
+                    printf("| O labirinto "RED"NAO"RESET" possui saida!\n");
                 }
                 verifica_back = 1;
                 break;
 
             case 3:
                 if(verifica_back != 1){
-                    printf("Backtracking ainda não foi feito!");
+                    printf("| Backtracking ainda "RED"NAO"RESET" foi feito!\n");
                 } else {
                     exibe_labirinto(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna);
                 }
                 break;
             case 4:
-                printf("Saindo...\n");
+                printf("| Saindo...\n");
                 exit(0);
                 return;
 
             default:
-                printf("Opção inválida.\n");
+                printf("| "RED"Opcao invalida!\n"RESET);
                 break;
         }
+        system("pause");
+        #ifdef OS_Windows
+            /* Codigo Windows */
+            system("cls");
+        #else
+            /* Codigo GNU/Linux */
+            system("clear");
+        #endif 
     } while (1);
 }
 
