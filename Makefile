@@ -6,8 +6,8 @@ CFLAGS = -Wall
 ANALISE ?= 0
 
 # Regra para compilar os arquivos
-All: main.c fileReader/fileReader.c backtracking/backtracking.c menu/menu.c
-	$(CC) $(CFLAGS) -DANALISE=$(ANALISE) main.c fileReader/fileReader.c backtracking/backtracking.c menu/menu.c -o exec
+All: main.c fileReader/fileReader.c backtracking/backtracking.c menu/menu.c mazeGenerator/maze_generator.c
+	$(CC) $(CFLAGS) -DANALISE=$(ANALISE) main.c fileReader/fileReader.c backtracking/backtracking.c menu/menu.c mazeGenerator/maze_generator.c -o exec
 
 # Regra para executar o código após compilar
 Run: All

@@ -63,6 +63,8 @@ void exibe_labirinto(int **labirinto, int linhas, int colunas) {
                 printf(WHITE "[1]" RESET);
             } else if (labirinto[i][j] == 3) {
                 printf(RED "[3]" RESET);
+            }else if(labirinto[i][j] == 4){
+                printf(YELLOW "[4]" RESET);
             } else if (labirinto[i][j] == -1) {
                 printf(GREEN "[-]" RESET);
             } else {
