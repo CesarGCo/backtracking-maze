@@ -6,6 +6,6 @@
 
 void inicia_backtracking(DadosLidos dado, int isAnalise, int** copia_labirinto, int *encontrou_saida);
 
-int movimenta_estudante(int** labirinto, int linhas, int colunas, int x, int y, int chaves, int* contagemRecursividade, int *encontrou_saida);
+int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int* contagemRecursividade, int* encontrou_saida, int chaves_coletadas);
 
 #endif

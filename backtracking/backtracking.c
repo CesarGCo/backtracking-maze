@@ -7,8 +7,9 @@ void inicia_backtracking(DadosLidos dado, int isAnalise, int **copia_labirinto, 
         for(j = 0; j < dado.tamanho_coluna; j++) {
             if(dado.matriz_labirinto[i][j] == 0) {
                 if(isAnalise) contagemRecursividade = 1;
-                 printf("| "GREEN"INICIO"RESET":\n");
-                movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, i, j, dado.num_chaves, &contagemRecursividade, encontrou_saida);
+                printf("| "GREEN"INICIO"RESET":\n");
+                int chaves_finais = movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, i, j, dado.num_chaves, &contagemRecursividade, encontrou_saida, 0);
+                printf("| "YELLOW"Chaves restantes:"RESET" %d\n", chaves_finais);
                 if(isAnalise) {
                     printf("|\n| "BLUE"ANALISE"RESET": \n| >>> Numero de chamadas recursivas realizadas: %i\n", contagemRecursividade);
                 }
@@ -17,17 +18,17 @@ void inicia_backtracking(DadosLidos dado, int isAnalise, int **copia_labirinto, 
         }
     }
     (*encontrou_saida) = 1;
-    printf("| A posicao inicial do estudante "RED"NAO"RESET" foi encontrda!\n");
+    printf("| A posicao inicial do estudante "RED"NAO"RESET" foi encontrada!\n");
     return;
 }
 
-int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int* contagemRecursividade, int* encontrou_saida) {
+int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, int chaves, int* contagemRecursividade, int* encontrou_saida, int chaves_coletadas) {
     if (x == 0) {
         printf("| Linha: %d Coluna: %d\n", x, y);
         printf("| "GREEN"FIM"RESET": O estudante chegou na coluna %d da primeira linha\n", y);
         labirinto[x][y] = -1;
         *encontrou_saida = 1;
-        return 1;
+        return chaves;
     }
 
     int celula_original = labirinto[x][y];
@@ -43,31 +44,28 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
         if (nx >= 0 && nx < linhas && ny >= 0 && ny < colunas) {
             if (labirinto[nx][ny] == 1) {
                 if (*contagemRecursividade > 0) (*contagemRecursividade)++;
-                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves, contagemRecursividade, encontrou_saida)) {
-                    return 1; 
-                }
+                int result = movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves, contagemRecursividade, encontrou_saida, chaves_coletadas);
+                if (result >= 0) return result;
             }
             else if (labirinto[nx][ny] == 3 && chaves > 0) {
+                printf("| "BLUE"Usando chave para abrir porta na linha %d, coluna %d"RESET"\n", nx, ny);
                 if (*contagemRecursividade > 0) (*contagemRecursividade)++;
-                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves - 1, contagemRecursividade, encontrou_saida)) {
-                    return 1; 
-                }
+                int result = movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves - 1, contagemRecursividade, encontrou_saida, chaves_coletadas);
+                if (result >= 0) return result;
             }
             else if (labirinto[nx][ny] == 4) {
+                printf("| "GREEN"Encontrou chave na linha %d, coluna %d"RESET"\n", nx, ny);
                 if (*contagemRecursividade > 0) (*contagemRecursividade)++;
-                labirinto[nx][ny] = 1;
-                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves + 1, contagemRecursividade, encontrou_saida)) {
-                    return 1;
-                }
+                labirinto[nx][ny] = 1;  
+                int result = movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves + 1, contagemRecursividade, encontrou_saida, chaves_coletadas + 1);
+                if (result >= 0) return result;
+                
+                printf("| "RED"Deixando a chave de volta na linha %d, coluna %d"RESET"\n", nx, ny);
                 labirinto[nx][ny] = 4;
             }
         }
     }
 
     labirinto[x][y] = celula_original;
-    return 0;
+    return -1;
 }
-
-
-
-
