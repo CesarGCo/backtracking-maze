@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 void esperar_usuario() {
-    printf("\nPressione qualquer tecla para retornar ao menu...");
+    printf("\nPressione ENTER para retornar ao menu...");
     getchar();
     getchar();
 }
