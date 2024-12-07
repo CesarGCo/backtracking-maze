@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "fileReader.h"
 
 DadosLidos le_arquivo(char *caminho){
@@ -51,7 +52,6 @@ int **copia_matriz(int **original, int linhas, int colunas) {
     return copia;
 }
 
-#include <stdio.h>
 
 
 void exibe_labirinto(int **labirinto, int linhas, int colunas) {
