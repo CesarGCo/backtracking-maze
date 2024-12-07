@@ -30,6 +30,7 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
         return 1;
     }
 
+    int celula_original = labirinto[x][y];
     labirinto[x][y] = -1;
     printf("| Linha: %d Coluna: %d\n", x, y);
 
@@ -40,20 +41,32 @@ int movimenta_estudante(int **labirinto, int linhas, int colunas, int x, int y, 
         int ny = y + direcoes[i][1];
 
         if (nx >= 0 && nx < linhas && ny >= 0 && ny < colunas) {
-            if (labirinto[nx][ny] == 1 || (labirinto[nx][ny] == 3 && chaves > 0)) {
-                int nova_chave = chaves - (labirinto[nx][ny] == 3 ? 1 : 0);
-
+            if (labirinto[nx][ny] == 1) {
                 if (*contagemRecursividade > 0) (*contagemRecursividade)++;
-                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, nova_chave, contagemRecursividade, encontrou_saida)) {
+                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves, contagemRecursividade, encontrou_saida)) {
                     return 1; 
                 }
+            }
+            else if (labirinto[nx][ny] == 3 && chaves > 0) {
+                if (*contagemRecursividade > 0) (*contagemRecursividade)++;
+                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves - 1, contagemRecursividade, encontrou_saida)) {
+                    return 1; 
+                }
+            }
+            else if (labirinto[nx][ny] == 4) {
+                if (*contagemRecursividade > 0) (*contagemRecursividade)++;
+                labirinto[nx][ny] = 1;
+                if (movimenta_estudante(labirinto, linhas, colunas, nx, ny, chaves + 1, contagemRecursividade, encontrou_saida)) {
+                    return 1;
+                }
+                labirinto[nx][ny] = 4;
             }
         }
     }
 
+    labirinto[x][y] = celula_original;
     return 0;
 }
-
 
 
 
