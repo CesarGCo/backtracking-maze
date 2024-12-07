@@ -9,7 +9,7 @@ void inicia_backtracking(DadosLidos dado, int isAnalise, int **copia_labirinto, 
                 if(isAnalise) contagemRecursividade = 1;
                 printf("| "GREEN"INICIO"RESET":\n");
                 int chaves_finais = movimenta_estudante(copia_labirinto, dado.tamanho_linha, dado.tamanho_coluna, i, j, dado.num_chaves, &contagemRecursividade, encontrou_saida, 0);
-                printf("| "YELLOW"Chaves restantes:"RESET" %d\n", chaves_finais);
+                printf("| "YELLOW"Chaves restantes:"RESET" %d\n", chaves_finais > 0 ? chaves_finais : 0);
                 if(isAnalise) {
                     printf("|\n| "BLUE"ANALISE"RESET": \n| >>> Numero de chamadas recursivas realizadas: %i\n", contagemRecursividade);
                 }
