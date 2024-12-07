@@ -25,9 +25,9 @@ void exibir_menu(int isAnalise) {
 
     do {
         #ifdef OS_Windows
-            //system("cls");
+            system("cls");
         #else
-            //system("clear");
+            system("clear");
         #endif 
 
         menu(isAnalise);
@@ -108,9 +108,6 @@ void exibir_menu(int isAnalise) {
                     continue;
                 }
                 break;
-
-
-
             default:
                 printf("| Saindo...\n");
                 exit(0);
